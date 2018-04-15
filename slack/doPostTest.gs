@@ -4,14 +4,13 @@ function doPost(e) {
   var bot_icon = ":tada:";
   
   var app = SlackApp.create(prop.slackToken);
-  var name = e.parameter.user_name;
-  var message = e.parameter.text;
+  var message = e.parameter.user_name + "さんが" + e.parameter.text + "と言いました";
   
   if (prop.verifyToken != e.parameter.token) {
     throw new Error("invalid token.");
   }
   
-  return app.postMessage("#test", name + "さんが" + message + "と言いました", {
+  return app.postMessage("#test", message, {
     username: bot_name,
     icon_emoji: bot_icon
   });
