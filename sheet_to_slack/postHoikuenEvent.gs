@@ -12,13 +12,14 @@ function postHoikuenEvent() {
   var dataRow = findRow(sheet,date,1);
 
   if(dataRow != 0){
-    var eventData = sheet.getRange(dataRow, 2).getValue();
-    message = "本日" + date + "の保育園イベントは\n" + eventData;
+    var eventName = sheet.getRange(dataRow, 2).getValue();
+    var parentJoin = (sheet.getRange(dataRow, 3).getValue() == 1) ? "(親参加)" : "";
+    message = "本日" + date + "の保育園イベントは\n" + eventName + parentJoin + "です。";
   }else{
     message = "本日" + date + "の保育園イベントはありません";
   }
 
-//TODO イベントが複数ある場合のメッセージ／親参加イベントかどうか／次週予告／日付比較をisSameに書き換える
+//TODO イベントが複数ある場合のメッセージ／次週予告／日付比較をisSameに書き換える
 
 
   var jsonData =
