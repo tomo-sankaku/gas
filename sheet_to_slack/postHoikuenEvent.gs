@@ -10,12 +10,12 @@ function postHoikuenEvent() {
 
   var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
   var dataRow = findRow(sheet,date,1);
-  var eventData = sheet.getRange(dataRow, 2).getValue();
 
-  if(eventData != 0){
+  if(dataRow != 0){
+    var eventData = sheet.getRange(dataRow, 2).getValue();
     message = "本日" + date + "の保育園イベントは\n" + eventData;
   }else{
-    message = "本日の保育園イベントはありません";
+    message = "本日" + date + "の保育園イベントはありません";
   }
 
 //TODO イベントが複数ある場合のメッセージ／親参加イベントかどうか／次週予告／日付比較をisSameに書き換える
