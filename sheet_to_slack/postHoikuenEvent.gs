@@ -13,13 +13,13 @@ function postHoikuenEvent() {
 
   if(dataRow != 0){
     var eventName = sheet.getRange(dataRow, 2).getValue();
-    var parentJoin = (sheet.getRange(dataRow, 3).getValue() == 1) ? "(親参加)" : "";
+    var parentJoin = (sheet.getRange(dataRow, 3).getValue() == 1) ? "　★親参加★" : "";
     message = "本日" + date + "の保育園イベントは\n" + eventName + parentJoin + "です。";
   }else{
     message = "本日" + date + "の保育園イベントはありません";
   }
 
-//TODO イベントが複数ある場合のメッセージ／次週予告／日付比較をisSameに書き換える
+//TODO イベントが複数ある場合のメッセージ／次週予告
 
 
   var jsonData =
@@ -46,7 +46,7 @@ function findRow(sheet,val,col){
   var dat = sheet.getDataRange().getValues();
  
   for(var i=1;i<dat.length;i++){
-    if(Moment.moment(dat[i][col-1]).format("YYYY/M/D") === val){
+    if(Moment.moment(dat[i][col-1]).isSame(val,'day')){
       return i+1;
     }
   }
