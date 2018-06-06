@@ -4,6 +4,7 @@ function postHoikuenEvent() {
   var bot_name = '保育園イベント通知bot';
   var bot_icon = ':girl:';
   var message = '';
+  var events = [];
 
   //https://tonari-it.com/gas-moment-js-moment/
   var date = Moment.moment().format("YYYY/M/D");
@@ -11,15 +12,18 @@ function postHoikuenEvent() {
   var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
   var dataRow = findRow(sheet,date,1);
 
-  if(dataRow != 0){
-    var eventName = sheet.getRange(dataRow, 2).getValue();
-    var parentJoin = (sheet.getRange(dataRow, 3).getValue() == 1) ? "　★親参加★" : "";
-    message = "本日" + date + "の保育園イベントは\n" + eventName + parentJoin + "です。";
+  if(dataRow.length > 0){
+    for(var i=0;i<dataRow.length;i++){
+        var eventName = sheet.getRange(dataRow[i], 2).getValue();
+        var parentJoin = (sheet.getRange(dataRow[i], 3).getValue() == 1) ? "　★親参加★" : "";
+	events.push("・" + eventName + parentJoin);
+    }
+    message = "本日" + date + "の保育園イベントは\n" + events.join("\n") + "\nです。";
   }else{
     message = "本日" + date + "の保育園イベントはありません";
   }
 
-//TODO イベントが複数ある場合のメッセージ／次週予告
+//TODO 次週予告
 
 
   var jsonData =
@@ -44,11 +48,11 @@ function postHoikuenEvent() {
 function findRow(sheet,val,col){
  
   var dat = sheet.getDataRange().getValues();
- 
+  var result = []; 
   for(var i=1;i<dat.length;i++){
     if(Moment.moment(dat[i][col-1]).isSame(val,'day')){
-      return i+1;
+      result.push(i+1);
     }
   }
-  return 0;
+  return result;
 }
