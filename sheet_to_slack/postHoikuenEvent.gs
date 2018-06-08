@@ -8,7 +8,6 @@ function postHoikuenEvent() {
 
   //https://tonari-it.com/gas-moment-js-moment/
   var date = Moment.moment().format("YYYY/M/D");
-
   var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
   var dataRow = findRow(sheet,date,1);
 
@@ -40,8 +39,11 @@ function postHoikuenEvent() {
     "contentType" : "application/json",
     "payload" : payload
   };
-
-  UrlFetchApp.fetch(postUrl, options);
+  try{
+    UrlFetchApp.fetch(postUrl, options);
+  }catch(e){
+    Logger.log("Message:" + e.message + "\nFileName:" + e.fileName + "\nLineNumber:" + e.lineNumber);
+  }
 }
 
 //https://tonari-it.com/gas-spreadsheet-find/
