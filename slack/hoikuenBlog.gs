@@ -1,7 +1,8 @@
-// フィードのURL設定
+var bot_name = "あおぞらブログ更新通知";
+var bot_icon = ":tada:";
 var feedURL = 'https://www.soka-aozora.com/feed/';
-// 抽出文字
 var keyword = 'つくし組';
+
 
 function parseXml() {
 
@@ -43,5 +44,13 @@ function keywordExists(str,needle) {
 
 // Slackに投稿
 function postSlack(content){
-  Logger.log(content);
+  var prop = PropertiesService.getScriptProperties().getProperties();
+  var app = SlackApp.create(prop.slackToken);
+  var message = content[0] + '(' + content[2] + ')\n' + content[1];
+
+  //デバッグのためにいったんtestに投稿するようにする
+  return app.postMessage("#test", message, {
+    username: bot_name,
+    icon_emoji: bot_icon
+  });
 }
