@@ -1,5 +1,6 @@
-var bot_name = "あおぞらブログ更新通知";
-var bot_icon = ":tada:";
+var bot_name = 'あおぞらブログ更新通知';
+var bot_icon = ':tada:';
+var post_channel = '#test';
 var feedURL = 'https://www.soka-aozora.com/feed/';
 var keyword = 'つくし組';
 
@@ -49,8 +50,10 @@ function postSlack(content){
   var message = content[0] + '(' + content[2] + ')\n' + content[1];
 
   //デバッグのためにいったんtestに投稿するようにする
-  return app.postMessage("#test", message, {
+  return app.postMessage( post_channel, message, {
     username: bot_name,
-    icon_emoji: bot_icon
+    icon_emoji: bot_icon,
+    unfurl_links: true
   });
 }
+
